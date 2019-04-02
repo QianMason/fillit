@@ -6,7 +6,7 @@
 /*   By: mqian <mqian@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 20:35:41 by mqian             #+#    #+#             */
-/*   Updated: 2019/03/28 20:22:23 by mqian            ###   ########.fr       */
+/*   Updated: 2019/04/01 17:31:31 by mqian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 int		main(int argc, char **argv)
 {
 	char *pieces[27];
+	//struct tetrimino peaces[27];
 	int ret;
 	int fd;
 	int zero;
@@ -29,20 +30,21 @@ int		main(int argc, char **argv)
 	ret = 0;
 	if (argc != 2)
 	{
-		ft_putstr('usage: ./fillit source_file\n');
+		ft_putstr("usage: ./fillit source_file\n");
 		return (0);
 	}
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 3)
 	{
-		ft_pustr("problem opening file\n")
+		ft_putstr("problem opening file\n");
 		return (0);
 	}
-	if (!(ret = retrieve(&*pieces, fd)) // will go through source file and parse pieces while checking for bad input, will
+	if (!(ret = parse_and_retrieve(&*pieces, fd))) // will go through source file and parse pieces while checking for bad input, will
 	{
-		ft_putstr('bad input or reading error or too many pieces!\n');
+		ft_putstr("bad input or reading error or too many pieces!\n");
 		return (0);
 	}
-	solver(&*pieces);
+	//solver(&*pieces);
+	ft_putstr("all is well, pieces are valid\n");
 	return (0);
 }

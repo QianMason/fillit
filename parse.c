@@ -6,7 +6,7 @@
 /*   By: mqian <mqian@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 17:32:39 by mqian             #+#    #+#             */
-/*   Updated: 2019/03/28 20:47:52 by mqian            ###   ########.fr       */
+/*   Updated: 2019/04/01 19:59:32 by mqian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 */
 
 
-int		piece_reader(**char pieces, int fd, int *pc) //only reads and stores functions from input
+int		piece_reader(char **pieces, int fd, int *pc) //only reads and stores functions from input
 {
 	int ret;
 	int linecount;
@@ -28,21 +28,23 @@ int		piece_reader(**char pieces, int fd, int *pc) //only reads and stores functi
 	char *line;
 
 	linecount = 0;
-	while (ret = get_next_line(fd, &line) > 0)
+	while ((ret = get_next_line(fd, &line) > 0))
 	{
-		if (ft_strlen(line) != 4) //remove these lines later or put check somewhere else?
+		if (ft_strlen(line) != 4 && linecount < 4) //remove these lines later or put check somewhere else?
 			return (0);
 		if (linecount++ < 4)
 		{
 			if (!pieces[*pc])
 				pieces[*pc] = ft_strnew(0);
 			temp = ft_strjoin(pieces[*pc], line);
-			ft_memdel(&pieces[*pc]);
+			ft_memdel((void **)&pieces[*pc]);
 			pieces[*pc] = temp;
 		}
-		else //count == 5
+		else //linecount is "==" 5 its on 5th empty line, but value is still technically 4
 		{
-			count = 0;
+			if (ft_strlen(line) != 0)
+				return (0);
+			linecount = 0;
 			*pc = *pc + 1; //don't process the empty line
 		}
 	}
@@ -71,7 +73,10 @@ int		is_valid_input(char **pieces, int *pc) // check number of "#", "." in each 
 			j++;
 		}
 		if (dot != 12 || hash != 4)
+		{
+			ft_putstr("incorrect input\n");
 			return (0);
+		}
 		i++;
 	}
 	return (1);
@@ -79,17 +84,52 @@ int		is_valid_input(char **pieces, int *pc) // check number of "#", "." in each 
 
 int		is_valid_piece(char **pieces, int *pc)
 {
+	int i;
+	int j;
+	int borders;
+	int len;
 
+	i = 0;
+	while (i < *pc)
+	{
+		borders = 0;
+		j = 0;
+		len = ft_strlen(pieces[i]);
+		while (j < len)
+		{
+			check_adjacent(&*pieces, &i, &j, &borders);
+			j++;
+		}
+		if ((borders / 2) < 3) //a piece aint valid, return 0
+		{
+			ft_putstr("invalid piece\n");
+			return (0);
+		}
+		i++;
+	}
+	return (1);
 }
-int		parse_and_retrieve(char **pieces, int fd)
+
+int		parse_and_retrieve(char **pieces, int fd) //struct tetrimino *peaces
 {
 	int ret;
 	int piececount;
 
 	piececount = 0;
-	if (!(ret = piece_parser(&*pieces, fd, &piececount)))
+	if (!(ret = piece_reader(&*pieces, fd, &piececount)))
+	{
+		ft_putstr("piece_reader failed\n");
 		return (0);
+	}
+	if (!(ret = is_valid_input(&*pieces, &piececount)))
+	{
+		ft_putstr("is_valid_input failed\n");
+		return (0);
+	}
 	if (!(ret = is_valid_piece(&*pieces, &piececount)))
+	{
+		ft_putstr("is_valid_piece failed\n");
 		return (0);
-	return ()
+	}
+	return (1);
 }
