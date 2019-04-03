@@ -6,11 +6,12 @@
 /*   By: mqian <mqian@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 17:32:39 by mqian             #+#    #+#             */
-/*   Updated: 2019/04/01 19:59:32 by mqian            ###   ########.fr       */
+/*   Updated: 2019/04/02 20:21:06 by mqian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+#include <stdio.h> //remove this later
 
 /*
 ** piece parser has two parts, the actual parser which takes reads in the
@@ -105,9 +106,36 @@ int		is_valid_piece(char **pieces, int *pc)
 			ft_putstr("invalid piece\n");
 			return (0);
 		}
+		ft_putstr("before\n");
+		ft_putstr(pieces[i]);
+		ft_putchar('\n');
 		i++;
 	}
 	return (1);
+}
+
+void	top_left_justify(char **pieces) //cycle through validated pieces, and mod index and subtract to 0 to get
+// left justify, and add +4 to top justify
+{
+	int i;
+	int j;
+	int count;
+	int values[4];
+
+	i = 0;
+	while (pieces[i] != 0)
+	{
+		j = 0;
+		count = 0;
+		while (pieces[i][j])
+		{
+			if (pieces[i][j] == '#')
+				values[count++] = j;
+			j++;
+		}
+		top_left_helper(values, pieces[i]);
+		i++;
+	}
 }
 
 int		parse_and_retrieve(char **pieces, int fd) //struct tetrimino *peaces
@@ -118,18 +146,19 @@ int		parse_and_retrieve(char **pieces, int fd) //struct tetrimino *peaces
 	piececount = 0;
 	if (!(ret = piece_reader(&*pieces, fd, &piececount)))
 	{
-		ft_putstr("piece_reader failed\n");
+		ft_putstr("piece_reader failed\n"); //change to 'error'
 		return (0);
 	}
 	if (!(ret = is_valid_input(&*pieces, &piececount)))
 	{
-		ft_putstr("is_valid_input failed\n");
+		ft_putstr("is_valid_input failed\n"); //change to 'error'
 		return (0);
 	}
 	if (!(ret = is_valid_piece(&*pieces, &piececount)))
 	{
-		ft_putstr("is_valid_piece failed\n");
+		ft_putstr("is_valid_piece failed\n"); //change to 'error'
 		return (0);
 	}
+	top_left_justify(&*pieces);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: mqian <mqian@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 20:35:41 by mqian             #+#    #+#             */
-/*   Updated: 2019/04/01 17:31:31 by mqian            ###   ########.fr       */
+/*   Updated: 2019/04/02 20:21:05 by mqian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ int		main(int argc, char **argv)
 		ft_putstr("usage: ./fillit source_file\n");
 		return (0);
 	}
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 3)
+	if ((fd = open(argv[1], O_RDONLY)) < 3)
 	{
 		ft_putstr("problem opening file\n");
 		return (0);
@@ -44,7 +43,14 @@ int		main(int argc, char **argv)
 		ft_putstr("bad input or reading error or too many pieces!\n");
 		return (0);
 	}
+	int i = 0;
+	while (i < 4)
+	{
+		ft_putstr("new one\n");
+		ft_putstr(pieces[i]);
+		ft_putchar('\n');
+		i++;
+	}
 	//solver(&*pieces);
-	ft_putstr("all is well, pieces are valid\n");
 	return (0);
 }
