@@ -6,7 +6,7 @@
 /*   By: mqian <mqian@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 16:59:41 by mqian             #+#    #+#             */
-/*   Updated: 2019/04/02 19:04:15 by mqian            ###   ########.fr       */
+/*   Updated: 2019/04/03 16:19:46 by mqian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ int		is_valid_input(char **pieces, int *pc);
 int		is_valid_piece(char **pieces, int *pc);
 void	solver(char **pieces);
 void	check_adjacent(char **pieces, int *i, int *j, int *borders);
-void	top_left_helper(int *values, char *pieces);
+void	top_left_helper(int *values, char *pieces, int k);
 void	top_helper(int **values);
 void	left_helper(int **values);
 void	top_left_justify(char **pieces);
+//void	solver(char **pieces);
 
 #endif

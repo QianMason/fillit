@@ -6,7 +6,7 @@
 /*   By: mqian <mqian@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 17:32:39 by mqian             #+#    #+#             */
-/*   Updated: 2019/04/02 20:21:06 by mqian            ###   ########.fr       */
+/*   Updated: 2019/04/03 20:04:58 by mqian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,6 @@ int		is_valid_piece(char **pieces, int *pc)
 			ft_putstr("invalid piece\n");
 			return (0);
 		}
-		ft_putstr("before\n");
-		ft_putstr(pieces[i]);
-		ft_putchar('\n');
 		i++;
 	}
 	return (1);
@@ -133,7 +130,8 @@ void	top_left_justify(char **pieces) //cycle through validated pieces, and mod i
 				values[count++] = j;
 			j++;
 		}
-		top_left_helper(values, pieces[i]);
+		top_left_helper(values, pieces[i], i);
+
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mqian <mqian@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 20:35:41 by mqian             #+#    #+#             */
-/*   Updated: 2019/04/02 20:21:05 by mqian            ###   ########.fr       */
+/*   Updated: 2019/04/03 20:04:56 by mqian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 int		main(int argc, char **argv)
 {
 	char *pieces[27];
-	//struct tetrimino peaces[27];
 	int ret;
 	int fd;
 	int zero;
@@ -43,14 +42,6 @@ int		main(int argc, char **argv)
 		ft_putstr("bad input or reading error or too many pieces!\n");
 		return (0);
 	}
-	int i = 0;
-	while (i < 4)
-	{
-		ft_putstr("new one\n");
-		ft_putstr(pieces[i]);
-		ft_putchar('\n');
-		i++;
-	}
-	//solver(&*pieces);
+	solver(&*pieces);
 	return (0);
 }
