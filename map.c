@@ -26,7 +26,6 @@ int		get_map_size(char **map)
 
 char **		generate_map(int size)
 {
-	char *rows;
 	char **columns;
 	int i;
 	int j;
@@ -42,7 +41,8 @@ char **		generate_map(int size)
 			return (NULL);
 		columns[i][size] = '\0';
 		while (j < size) //populate to empty map
-			columns[i++][j++] = '.';
+			columns[i][j++] = '.';
+		i++;
 	}
 	return (columns);
 }
@@ -50,7 +50,9 @@ char **		generate_map(int size)
 void		free_map(char **map)
 {
 	int len;
+	int i;
 
+	i = 0;
 	len = get_map_size(&*map);
 	while (i < len)
 	{
@@ -61,6 +63,34 @@ void		free_map(char **map)
 	free(map);
 }
 
+
+int		set_map_size(int numblocks)
+{
+	int total;
+	int n;
+
+	n = 0;
+	total = 4 * numblocks;
+	while (n * n < total)
+	{
+		n++;
+	}
+	return (n);
+}
+
+char **		resize_map(char **map)
+{
+	char **new;
+
+	if (!(new = generate_map(get_map_size(&*map) + 1)))
+		return (NULL);
+	free_map(&*map);
+	map = new;
+	return (map);
+}
+
+/*
+***
 char **		copy_map(char **map, int size)
 {
 	int i; // row
@@ -83,31 +113,5 @@ char **		copy_map(char **map, int size)
 	free_map(&*map);
 	return (new);
 }
-
-int		set_map_size(int numblocks)
-{
-	int total;
-	int n;
-
-	n = 0;
-	total = 4 * numblocks;
-	while (n * n < total)
-	{
-		n++;
-	}
-	return (n);
-}
-
-char **		resize_map(char **map)
-{
-	int i; // row
-	int j; // column
-	char **new;
-
-	i = 0;
-	if (!(new = generate_map(get_map_size(&*map) + 1)))
-		return (NULL);
-	free_map(&*map);
-	map = new;
-	return (map);
-}
+***
+*/
