@@ -23,15 +23,10 @@ int		*encode_index(char *piece)
 	j = 0;
 	if (!(encoded = (int*)malloc(sizeof(int) * 4)))
 		return (NULL);
-	//printf("place_piece func777\n");
 	while (i < 16)
 	{
-		//printf("place_piece func99\n");
 		if (piece[i] != '.')
-		{
-			//printf("place_piece func100\n");
 			encoded[j++] = i;
-		}
 		i++;
 	}
 	return (encoded);
@@ -63,23 +58,19 @@ void	place_piece(char **map, char *piece, int x, int y)
 		map[y + (hold[j] / 4)][x + (hold[j] % 4)] = c; //map[testing y pos + (abstracted y pos from left/top justified string)]
 		j++;
 	}
-	//ft_memdel((void**)&hold);
+	ft_memdel((void**)&hold);
 }
 
-int		place_validate(char ***map, char **pieces, int piecenum, int x, int y)
+int		place_validate(char **map, char **pieces, int piecenum, int x, int y)
 {
 	int *hold;
 	int i;
 	int p_x;
 	int p_y;
 	int len;
-	printf("value of x: %d\n", x);
-	printf("vlaue of y: %d\n", y);
+
 	i = 0;
-	len = get_map_size(*map);
-	printf("value of len: %d\n", len);
-	if (piecenum == 0) //might need to change this
-		return (1);
+	len = get_map_size(map);
 	if (!(hold = encode_index(pieces[piecenum])))// #ISOLATED THE FUCKING ISSUE:??????
 		return (0);
 	else
@@ -88,16 +79,12 @@ int		place_validate(char ***map, char **pieces, int piecenum, int x, int y)
 		{
 			p_x = x + (hold[i] % 4);
 			p_y = y + (hold[i] / 4);
-			printf("p_x is = %d\n", p_x);
-			printf("p_y is = %d\n", p_y);
-			if (p_x >= len || p_y>= len || *map[p_y][p_x] != '.'|| *map[p_y][p_x] != (char)((piecenum - 1) + 65))
+			if (p_x >= len || p_y >= len || map[p_y][p_x] ==
+				(char)((piecenum - 1) + 65) || map[p_y][p_x] != '.')
 				return (0);
-
 			i++;
-
 		}
 	}
-
 	return (1);
 }
 
@@ -108,26 +95,21 @@ int		solver_recursive(char **map, char **pieces, int piecenum, int numpieces)
 	int y;
 
 	y = 0;
-	printf("recursive call\n");
 	if (piecenum == numpieces)
 		return (1);
-	if (get_map_size(&*map) > 6)
-	{
-		printf("map size is %d\n", get_map_size(&*map));
-		return (1);
-	}
 	while (y < get_map_size(&*map))
 	{
 		x = 0;
 		while (x < get_map_size(&*map))
 		{
-			printf("got in here???????????????????????????????????????????????????\n");
-			if (place_validate(&map, &*pieces, piecenum, x, y))
+			if (place_validate(&*map, &*pieces, piecenum, x, y))
 			{
 				place_piece(&*map, pieces[piecenum], x, y);
 				print_map(&*map);
-				printf("returning recursive call\n");
-				return (solver_recursive(&*map, &*pieces, piecenum + 1, numpieces));
+				if (solver_recursive(&*map, &*pieces, piecenum + 1, numpieces)) //problem, you need to remove the old pieces from the board, if one of the recursive calls fails one ach level
+					return (1);
+				else
+					remove_pieces(&*map, (char)(piecenum + 65));
 			}
 			x++;
 		}
@@ -150,9 +132,7 @@ void	solver(char **pieces)
 	if (!(map = generate_map(size)))
 		return ;
 	while (!solver_recursive(&*map, &*pieces, 0, numpieces))
-	{
 		map = resize_map(&*map);
-	}
 	print_map(&*map);
 }
 
@@ -160,12 +140,41 @@ void print_map(char **map) //DELETE THIS FUNCTION
 {
 	int i;
 	int j;
+	int count;
 
 	i = 0;
+	count = 0;
 	j = get_map_size(&*map);
 	while (i < j)
 	{
 		printf("%s\n", map[i]);
+		i++;
+		count++;
+		if (count == 4)
+		{
+			count = 0;
+			printf("\n");
+		}
+	}
+}
+
+void remove_pieces(char **map, char c)
+{
+	int len;
+	int i;
+	int j;
+
+	len = get_map_size(&*map);
+	i = 0;
+	while (i < len)
+	{
+		j = 0;
+		while (j < len)
+		{
+			if (map[i][j] == c)
+				map[i][j] = '.';
+			j++;
+		}
 		i++;
 	}
 }

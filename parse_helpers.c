@@ -12,7 +12,7 @@
 
 #include "fillit.h"
 
-void	check_adjacent(char **pieces, int *i, int *j, int *borders)
+void	check_adjacent(char **pieces, int *i, int *j, int *borders) //11 lines
 {
 	if (pieces[*i][*j] == '#')
 	{
@@ -27,7 +27,7 @@ void	check_adjacent(char **pieces, int *i, int *j, int *borders)
 	}
 }
 
-int		check_operation(int **values, int direction) //1 or 2 based on check left or up
+int		check_operation(int **values, int direction) //1 or 2 based on check left or up //22 lines
 {
 	int i;
 
@@ -53,46 +53,45 @@ int		check_operation(int **values, int direction) //1 or 2 based on check left o
 	return (1);
 }
 
-void	left_helper(int **values)
+void top_left_helper_helper(int **values, int op, int i) //24 lines
 {
-	int i;
-
-	while (check_operation(&*values, 1))
+	if (op == 1)
 	{
-		i = 0;
-		while (i < 4)
+		while (check_operation(&*values, 1))
 		{
-			(*values)[i] = (*values)[i] - 1;
-			i++;
+			i = 0;
+			while (i < 4)
+			{
+				(*values)[i] = (*values)[i] - 1;
+				i++;
+			}
+		}
+	}
+	else
+	{
+		while (check_operation(&*values, 2))
+		{
+			i = 0;
+			while (i < 4)
+			{
+				(*values)[i] = (*values)[i] - 4;
+				i++;
+			}
 		}
 	}
 }
 
-
-void	top_helper(int **values)
-{
-	int i;
-
-	while (check_operation(&*values, 2))
-	{
-		i = 0;
-		while (i < 4)
-		{
-			(*values)[i] = (*values)[i] - 4;
-			i++;
-		}
-	}
-}
-
-void	top_left_helper(int *values, char *pieces, int k)
+void	top_left_helper(int *values, char *pieces, int k) //13 lines
 {
 	int i;
 	int j;
+	int a;
 
 	i = 0;
 	j = 0;
-	left_helper(&values);
-	top_helper(&values);
+	a = 0;
+	top_left_helper_helper(&values, 1, a);
+	top_left_helper_helper(&values, 2, a);
 	while (i < 16)
 		pieces[i++] = '.';
 	while (j < 4)

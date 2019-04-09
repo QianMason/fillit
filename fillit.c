@@ -32,14 +32,10 @@ int		main(int argc, char **argv)
 		ft_putstr("usage: ./fillit source_file\n");
 		return (0);
 	}
-	if ((fd = open(argv[1], O_RDONLY)) < 3)
+	if ((fd = open(argv[1], O_RDONLY)) < 3 ||
+		!(ret = parse_and_retrieve(&*pieces, fd)))
 	{
-		ft_putstr("problem opening file\n");
-		return (0);
-	}
-	if (!(ret = parse_and_retrieve(&*pieces, fd))) // will go through source file and parse pieces while checking for bad input, will
-	{
-		ft_putstr("bad input or reading error or too many pieces!\n");
+		ft_putstr("error\n");
 		return (0);
 	}
 	solver(&*pieces);

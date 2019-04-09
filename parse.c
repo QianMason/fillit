@@ -21,7 +21,7 @@
 */
 
 
-int		piece_reader(char **pieces, int fd, int *pc) //only reads and stores functions from input
+int		piece_reader(char **pieces, int fd, int *pc) //only reads and stores functions from input //27 lines
 {
 	int ret;
 	int linecount;
@@ -31,7 +31,7 @@ int		piece_reader(char **pieces, int fd, int *pc) //only reads and stores functi
 	linecount = 0;
 	while ((ret = get_next_line(fd, &line) > 0))
 	{
-		if (ft_strlen(line) != 4 && linecount < 4) //remove these lines later or put check somewhere else?
+		if (ft_strlen(line) != 4 && linecount < 4)
 			return (0);
 		if (linecount++ < 4)
 		{
@@ -52,7 +52,7 @@ int		piece_reader(char **pieces, int fd, int *pc) //only reads and stores functi
 	return ((ret < 0 || *pc > 26) ? 0 : 1);
 }
 
-int		is_valid_input(char **pieces, int *pc) // check number of "#", "." in each file
+int		is_valid_input(char **pieces, int *pc) // check number of "#", "." in each file //27
 {
 	int i;
 	int j;
@@ -83,7 +83,7 @@ int		is_valid_input(char **pieces, int *pc) // check number of "#", "." in each 
 	return (1);
 }
 
-int		is_valid_piece(char **pieces, int *pc)
+int		is_valid_piece(char **pieces, int *pc) //24 lines
 {
 	int i;
 	int j;
@@ -112,7 +112,7 @@ int		is_valid_piece(char **pieces, int *pc)
 }
 
 void	top_left_justify(char **pieces) //cycle through validated pieces, and mod index and subtract to 0 to get
-// left justify, and add +4 to top justify
+// left justify, and add +4 to top justify //19 lines
 {
 	int i;
 	int j;
@@ -131,12 +131,11 @@ void	top_left_justify(char **pieces) //cycle through validated pieces, and mod i
 			j++;
 		}
 		top_left_helper(values, pieces[i], i);
-
 		i++;
 	}
 }
 
-int		parse_and_retrieve(char **pieces, int fd) //struct tetrimino *peaces
+int		parse_and_retrieve(char **pieces, int fd) //21 lines
 {
 	int ret;
 	int piececount;
