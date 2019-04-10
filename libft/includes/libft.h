@@ -6,15 +6,17 @@
 /*   By: mqian <mqian@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 15:46:14 by mqian             #+#    #+#             */
-/*   Updated: 2019/03/14 18:50:16 by mqian            ###   ########.fr       */
+/*   Updated: 2019/04/09 19:14:41 by mqian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+# define BUFF_SIZE 4096
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 
 /*
 ** function prototypes
@@ -99,4 +101,16 @@ t_list			*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 int				ft_strtrimfronthelper(char *s);
 int				ft_strtrimbackhelper(char *s);
 int				ft_wordcount(char *s, char c);
+
+/*
+*** get_next_line
+*/
+
+char			*ret_string_delim(char *s, char c);
+char			*ret_remain_line(char *s, char c);
+int				read_helper(int ret, char *buff, char **filed, char **line);
+int				get_remain_lines(char **filed, char **line);
+int				get_next_line(const int fd, char **line);
+
+
 #endif
