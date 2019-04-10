@@ -6,11 +6,9 @@
 #    By: mqian <mqian@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/26 15:43:52 by mqian             #+#    #+#              #
-#    Updated: 2019/03/25 19:44:34 by mqian            ###   ########.fr        #
+#    Updated: 2019/04/09 19:21:39 by mqian            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-#need $(NAME), clean, fclean, re, all
 
 NAME = libft.a
 
@@ -23,7 +21,7 @@ ft_strcpy.c ft_strdel.c ft_strdup.c ft_strequ.c ft_striter.c ft_striteri.c ft_st
 ft_strlcat.c ft_strlen.c ft_strmap.c ft_strmapi.c ft_strncat.c ft_strncmp.c ft_strncpy.c \
 ft_strnequ.c ft_strnew.c ft_strnstr.c ft_strrchr.c ft_strsplit.c ft_strstr.c ft_strstrhelper.c \
 ft_strsub.c ft_strtrim.c ft_strtrimbackhelper.c ft_strtrimfronthelper.c ft_tolower.c \
-ft_toupper.c ft_wordcount.c
+ft_toupper.c ft_wordcount.c get_next_line.c
 
 OFILES = $(CFILES:.c=.o)
 
