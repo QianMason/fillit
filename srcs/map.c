@@ -6,7 +6,7 @@
 /*   By: mqian <mqian@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 17:26:41 by mqian             #+#    #+#             */
-/*   Updated: 2019/04/09 19:56:54 by mqian            ###   ########.fr       */
+/*   Updated: 2019/04/09 21:03:07 by mqian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,30 +88,3 @@ char **		resize_map(char **map)
 	map = new;
 	return (map);
 }
-
-/*
-***
-char **		copy_map(char **map, int size)
-{
-	int i; // row
-	int j; // column
-	char **new;
-
-	i = 0;
-	if (!(new = generate_map(size + 1)))
-		return (NULL);
-	while (map[i]) // will terminate when it hits zeroed block
-	{
-		j = 0;
-		while (map[i][j]) //will terminate when it hits null terminator
-		{
-			new[i][j] = map[i][j];
-			j++;
-		}
-		i++;
-	}
-	free_map(&*map);
-	return (new);
-}
-***
-*/
