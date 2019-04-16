@@ -81,10 +81,14 @@ int		place_validate(char **map, char **pieces, int piecenum, int x, int y)
 			p_y = y + (hold[i] / 4);
 			if (p_x >= len || p_y >= len || map[p_y][p_x] ==
 				(char)((piecenum - 1) + 65) || map[p_y][p_x] != '.')
+			{
+				ft_memdel((void**)&hold);
 				return (0);
+			}
 			i++;
 		}
 	}
+	ft_memdel((void**)&hold);
 	return (1);
 }
 
@@ -133,6 +137,7 @@ void	solver(char **pieces)
 	while (!solver_recursive(&*map, &*pieces, 0, numpieces))
 		map = resize_map(&*map);
 	print_map(&*map);
+	free_map(&*map);
 }
 
 void print_map(char **map) //need this function at the end
@@ -148,7 +153,6 @@ void print_map(char **map) //need this function at the end
 	{
 		ft_putstr(map[i]);
 		i++;
-		//if (i < j)
 		ft_putchar('\n');
 		count++;
 	}

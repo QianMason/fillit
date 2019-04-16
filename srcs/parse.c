@@ -20,36 +20,39 @@
 ** array which holds all the pieces.
 */
 
-
 int		piece_reader(char **pieces, int fd, int *pc) //only reads and stores functions from input //27 lines
-{
+{ //it checks for bad line length, and incorrect number of lines in file
 	int ret;
 	int linecount;
 	char *temp;
 	char *line;
+	int totalcount;
 
 	linecount = 0;
+	totalcount = 0;
 	while ((ret = get_next_line(fd, &line) > 0))
 	{
-		if (ft_strlen(line) != 4 && linecount < 4)
-			return (0);
 		if (linecount++ < 4)
 		{
 			if (!pieces[*pc])
 				pieces[*pc] = ft_strnew(0);
-			temp = ft_strjoin(pieces[*pc], line);
-			ft_memdel((void **)&pieces[*pc]);
+			temp = ft_strjoin(pieces[*pc], line); // LEAK HERE?? WTF????????????????????????
+			ft_memdel((void**)&pieces[*pc]);
 			pieces[*pc] = temp;
+			totalcount++;
+			if (linecount == 4)
+				*pc = *pc + 1;
 		}
 		else //linecount is "==" 5 its on 5th empty line, but value is still technically 4
 		{
-			if (ft_strlen(line) != 0)
-				return (0);
-			linecount = 0;
-			*pc = *pc + 1; //don't process the empty line
+			linecount = 0; //don't process empty line
+			totalcount++;
 		}
 	}
-	return ((ret < 0 || *pc > 26) ? 0 : 1);
+	ft_memdel((void**)&line);
+	if (totalcount / 5 != (*pc - 1))
+		return (0);
+	return (1);
 }
 
 int		is_valid_input(char **pieces, int *pc) // check number of "#", "." in each file //27
@@ -74,10 +77,7 @@ int		is_valid_input(char **pieces, int *pc) // check number of "#", "." in each 
 			j++;
 		}
 		if (dot != 12 || hash != 4)
-		{
-			ft_putstr("incorrect input\n");
 			return (0);
-		}
 		i++;
 	}
 	return (1);
@@ -102,10 +102,7 @@ int		is_valid_piece(char **pieces, int *pc) //24 lines
 			j++;
 		}
 		if ((borders / 2) < 3) //a piece aint valid, return 0
-		{
-			ft_putstr("invalid piece\n");
 			return (0);
-		}
 		i++;
 	}
 	return (1);
@@ -141,19 +138,19 @@ int		parse_and_retrieve(char **pieces, int fd) //21 lines
 	int piececount;
 
 	piececount = 0;
-	if (!(ret = piece_reader(&*pieces, fd, &piececount)))
+	if (!(piece_reader(&*pieces, fd, &piececount)))
 	{
-		ft_putstr("piece_reader failed\n"); //change to 'error'
+		ft_putendl("error");
 		return (0);
 	}
 	if (!(ret = is_valid_input(&*pieces, &piececount)))
 	{
-		ft_putstr("is_valid_input failed\n"); //change to 'error'
+		ft_putendl("error");
 		return (0);
 	}
 	if (!(ret = is_valid_piece(&*pieces, &piececount)))
 	{
-		ft_putstr("is_valid_piece failed\n"); //change to 'error'
+		ft_putendl("error");
 		return (0);
 	}
 	top_left_justify(&*pieces);

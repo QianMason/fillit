@@ -19,7 +19,7 @@ int		get_map_size(char **map)
 	int len;
 
 	len = 0;
-	while (map[0][len])
+	while (map[len])
 		len++;
 	return (len);
 }

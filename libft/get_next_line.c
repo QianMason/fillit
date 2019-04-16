@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
-char	*ret_string_delim(char *s, char c) //function that returns a portion of the string up to the first delimiter
+char	*ret_string_delim(char *s, char c)
 {
 	int i;
 
@@ -37,7 +38,7 @@ char	*ret_remain_line(char *s, char c)
 	}
 	if (j == i)
 		return (ft_strsub(s, j, 0));
-	j++; //since it ended where i ended which is a \n
+	j++;
 	return (ft_strsub(s, j, (i - j)));
 }
 
@@ -46,13 +47,13 @@ int		read_helper(int ret, char *buff, char **filed, char **line)
 	char *temp;
 	char *temp2;
 
-	buff[ret] = '\0'; // null terminate the end of the read
-	if (!*filed) // since it might be the case the buffer read size is less than an actual line, its done in a loop, and we are joining strings together, we have to free the old one so we use temp and do a check
+	buff[ret] = '\0';
+	if (!*filed)
 		*filed = ft_strnew(0);
 	temp = ft_strjoin(*filed, buff);
-	ft_memdel((void **) &*filed);
+	ft_memdel((void **)&*filed);
 	*filed = temp;
-	if (ft_strchr(*filed, '\n')) //line is found in the buff, extract it and reset, then return 1, if not found return 0, and call read again.
+	if (ft_strchr(*filed, '\n'))
 	{
 		*line = ret_string_delim(*filed, '\n');
 		temp2 = ret_remain_line(*filed, '\n');
@@ -79,11 +80,11 @@ int		get_remain_lines(char **filed, char **line)
 		*filed = temp2;
 		return (1);
 	}
-	else //last line of the thing
+	else
 	{
 		if (ft_strlen(*filed) > 0)
 		{
-			*line = ft_strdup(*filed); // PROBLEM WAS HERE, you were doing *line = *filed and then you were freeing *filed
+			*line = ft_strdup(*filed);
 			ft_memdel((void **) &*filed);
 			return (1);
 		}
@@ -93,18 +94,20 @@ int		get_remain_lines(char **filed, char **line)
 
 int		get_next_line(const int fd, char **line)
 {
-	static char	*filed[5000]; //ask oscar about this number
+	static char	*filed[5000];
 	char 		buff[BUFF_SIZE + 1];
 	int			ret;
 
 	if (fd < 0 || !line)
 		return (-1);
+	if (filed[fd])
+		ft_memdel((void**)&*line);
 	while ((ret = read(fd, buff, BUFF_SIZE)) > 0)
 	{
 		if (read_helper(ret, buff, &filed[fd], &*line))
 			break ;
 	}
-	if (ret == 0 && filed[fd]) //case where you reached the end of a read, but there is still stuff in the buffer
+	if (ret == 0 && filed[fd])
 	{
 		if (get_remain_lines(&filed[fd], &*line))
 			return (1);

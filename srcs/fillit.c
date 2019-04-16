@@ -54,10 +54,9 @@ int		main(int argc, char **argv)
 		ft_putstr("usage: ./fillit source_file\n");
 		return (0);
 	}
-	if ((fd = open(argv[1], O_RDONLY)) < 3 ||
+	if ((fd = open(argv[1], O_RDONLY)) == -1 ||
 		!(ret = parse_and_retrieve(&*pieces, fd)))
 	{
-		ft_putstr("error\n");
 		return (0);
 	}
 	solver(&*pieces);
