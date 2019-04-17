@@ -6,13 +6,13 @@
 /*   By: mqian <mqian@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 16:58:37 by mqian             #+#    #+#             */
-/*   Updated: 2019/04/09 19:30:10 by mqian            ###   ########.fr       */
+/*   Updated: 2019/04/16 20:05:43 by mqian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fillit.h"
 
-void	check_adjacent(char **pieces, int *i, int *j, int *borders) //11 lines
+void	check_adjacent(char **pieces, int *i, int *j, int *borders) //GOOD
 {
 	if (pieces[*i][*j] == '#')
 	{
@@ -27,7 +27,7 @@ void	check_adjacent(char **pieces, int *i, int *j, int *borders) //11 lines
 	}
 }
 
-int		check_operation(int **values, int direction) //1 or 2 based on check left or up //22 lines
+int		check_operation(int **values, int direction) //1 or 2 based on check left or up //22 lines //GOOD
 {
 	int i;
 
@@ -53,7 +53,7 @@ int		check_operation(int **values, int direction) //1 or 2 based on check left o
 	return (1);
 }
 
-void top_left_helper_helper(int **values, int op, int i) //24 lines
+void top_left_helper_helper(int **values, int op, int i)
 {
 	if (op == 1)
 	{
@@ -81,7 +81,7 @@ void top_left_helper_helper(int **values, int op, int i) //24 lines
 	}
 }
 
-void	top_left_helper(int *values, char *pieces, int k) //13 lines
+void	top_left_helper(int *values, char *pieces, int k)
 {
 	int i;
 	int j;

@@ -6,7 +6,7 @@
 /*   By: mqian <mqian@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 15:46:14 by mqian             #+#    #+#             */
-/*   Updated: 2019/04/09 19:14:41 by mqian            ###   ########.fr       */
+/*   Updated: 2019/04/16 20:08:29 by mqian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,4 @@ char			*ret_remain_line(char *s, char c);
 int				read_helper(int ret, char *buff, char **filed, char **line);
 int				get_remain_lines(char **filed, char **line);
 int				get_next_line(const int fd, char **line);
-
-
 #endif

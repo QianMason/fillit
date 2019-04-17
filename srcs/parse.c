@@ -6,12 +6,11 @@
 /*   By: mqian <mqian@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 17:32:39 by mqian             #+#    #+#             */
-/*   Updated: 2019/04/09 19:30:12 by mqian            ###   ########.fr       */
+/*   Updated: 2019/04/16 20:14:40 by mqian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fillit.h"
-#include <stdio.h> //remove this later
 
 /*
 ** piece parser has two parts, the actual parser which takes reads in the
@@ -22,11 +21,10 @@
 
 int		piece_reader(char **pieces, int fd, int *pc) //only reads and stores functions from input //27 lines
 { //it checks for bad line length, and incorrect number of lines in file
-	int ret;
-	int linecount;
-	char *temp;
-	char *line;
-	int totalcount;
+	int		ret;
+	int		linecount;
+	char	*line;
+	int		totalcount;
 
 	linecount = 0;
 	totalcount = 0;
@@ -34,11 +32,7 @@ int		piece_reader(char **pieces, int fd, int *pc) //only reads and stores functi
 	{
 		if (linecount++ < 4)
 		{
-			if (!pieces[*pc])
-				pieces[*pc] = ft_strnew(0);
-			temp = ft_strjoin(pieces[*pc], line); // LEAK HERE?? WTF????????????????????????
-			ft_memdel((void**)&pieces[*pc]);
-			pieces[*pc] = temp;
+			piece_reader_helper(&*pieces, &*pc, &line);
 			totalcount++;
 			if (linecount == 4)
 				*pc = *pc + 1;
@@ -50,40 +44,36 @@ int		piece_reader(char **pieces, int fd, int *pc) //only reads and stores functi
 		}
 	}
 	ft_memdel((void**)&line);
-	if (totalcount / 5 != (*pc - 1))
-		return (0);
-	return (1);
+	return ((totalcount / 5 != (*pc - 1)) ? 0 : 1);
 }
 
-int		is_valid_input(char **pieces, int *pc) // check number of "#", "." in each file //27
+int		is_valid_input(char **pieces, int *pc)
 {
 	int i;
 	int j;
-	int hash;
-	int dot;
+	int dot_hash[2];
 
 	i = 0;
 	while (i < *pc)
 	{
-		dot = 0;
-		hash = 0;
+		array_zero(dot_hash);
 		j = 0;
 		while (pieces[i][j] != '\0')
 		{
 			if (pieces[i][j] == '#')
-				hash++;
+				dot_hash[1]++;
 			else if (pieces[i][j] == '.')
-				dot++;
+				dot_hash[0]++;
 			j++;
 		}
-		if (dot != 12 || hash != 4)
+		if (dot_hash[0] != 12 || dot_hash[1] != 4)
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
-int		is_valid_piece(char **pieces, int *pc) //24 lines
+int		is_valid_piece(char **pieces, int *pc)
 {
 	int i;
 	int j;
@@ -108,7 +98,7 @@ int		is_valid_piece(char **pieces, int *pc) //24 lines
 	return (1);
 }
 
-void	top_left_justify(char **pieces) //cycle through validated pieces, and mod index and subtract to 0 to get
+void	top_left_justify(char **pieces) //cycle through validated pieces, and mod index and subtract to 0 to get //GOOD
 // left justify, and add +4 to top justify //19 lines
 {
 	int i;
@@ -132,7 +122,7 @@ void	top_left_justify(char **pieces) //cycle through validated pieces, and mod i
 	}
 }
 
-int		parse_and_retrieve(char **pieces, int fd) //21 lines
+int		parse_and_retrieve(char **pieces, int fd)
 {
 	int ret;
 	int piececount;

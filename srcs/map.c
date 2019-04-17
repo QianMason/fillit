@@ -6,13 +6,11 @@
 /*   By: mqian <mqian@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 17:26:41 by mqian             #+#    #+#             */
-/*   Updated: 2019/04/09 21:03:07 by mqian            ###   ########.fr       */
+/*   Updated: 2019/04/16 20:13:39 by mqian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fillit.h"
-#include <stdio.h> //delete this line later
-
 
 int		get_map_size(char **map)
 {
@@ -24,11 +22,11 @@ int		get_map_size(char **map)
 	return (len);
 }
 
-char **		generate_map(int size)
+char	**generate_map(int size)
 {
-	char **columns;
-	int i;
-	int j;
+	char	**columns;
+	int		i;
+	int		j;
 
 	i = 0;
 	if (!(columns = (char**)malloc(sizeof(char*) * (size + 1))))
@@ -47,7 +45,7 @@ char **		generate_map(int size)
 	return (columns);
 }
 
-void		free_map(char **map)
+void	free_map(char **map)
 {
 	int len;
 	int i;
@@ -78,7 +76,7 @@ int		set_map_size(int numblocks)
 	return (n);
 }
 
-char **		resize_map(char **map)
+char	**resize_map(char **map)
 {
 	char **new;
 

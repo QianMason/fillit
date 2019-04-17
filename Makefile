@@ -6,7 +6,7 @@
 #    By: mqian <mqian@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/09 18:00:11 by mqian             #+#    #+#              #
-#    Updated: 2019/04/09 19:27:39 by mqian            ###   ########.fr        #
+#    Updated: 2019/04/16 17:26:15 by mqian            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,7 @@ OBJ_NAME = $(SRC_NAME:.c=.o)
 
 INC_NAME = fillit.h
 
-SRC_NAME = fillit.c solve.c parse.c map.c parse_helpers.c
+SRC_NAME = fillit.c solve.c parse.c map.c parse_helpers.c helpers.c
 
 all: $(NAME)
 

@@ -6,12 +6,11 @@
 /*   By: mqian <mqian@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 14:28:57 by mqian             #+#    #+#             */
-/*   Updated: 2019/03/25 18:57:35 by mqian            ###   ########.fr       */
+/*   Updated: 2019/04/16 20:04:50 by mqian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 char	*ret_string_delim(char *s, char c)
 {
@@ -57,7 +56,7 @@ int		read_helper(int ret, char *buff, char **filed, char **line)
 	{
 		*line = ret_string_delim(*filed, '\n');
 		temp2 = ret_remain_line(*filed, '\n');
-		ft_memdel((void **) &*filed);
+		ft_memdel((void **)&*filed);
 		*filed = temp2;
 		return (1);
 	}
@@ -76,7 +75,7 @@ int		get_remain_lines(char **filed, char **line)
 		temp = ret_string_delim(*filed, '\n');
 		temp2 = ret_remain_line(*filed, '\n');
 		*line = temp;
-		ft_memdel((void **) &*filed);
+		ft_memdel((void **)&*filed);
 		*filed = temp2;
 		return (1);
 	}
@@ -85,7 +84,7 @@ int		get_remain_lines(char **filed, char **line)
 		if (ft_strlen(*filed) > 0)
 		{
 			*line = ft_strdup(*filed);
-			ft_memdel((void **) &*filed);
+			ft_memdel((void **)&*filed);
 			return (1);
 		}
 	}
@@ -94,9 +93,9 @@ int		get_remain_lines(char **filed, char **line)
 
 int		get_next_line(const int fd, char **line)
 {
-	static char	*filed[5000];
-	char 		buff[BUFF_SIZE + 1];
-	int			ret;
+	static char		*filed[5000];
+	char			buff[BUFF_SIZE + 1];
+	int				ret;
 
 	if (fd < 0 || !line)
 		return (-1);

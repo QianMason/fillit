@@ -6,7 +6,7 @@
 /*   By: mqian <mqian@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 16:59:41 by mqian             #+#    #+#             */
-/*   Updated: 2019/04/09 19:39:34 by mqian            ###   ########.fr       */
+/*   Updated: 2019/04/16 20:04:40 by mqian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,43 +16,37 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include "../libft/includes/libft.h"
+
 /*
-
-# include "libft/includes/libft.h"
-# include "get_next_line.h"
-
+*** parse.c GOOD
 */
 
+int		parse_and_retrieve(char **pieces, int fd);
+int		piece_reader(char **pieces, int fd, int *pc);
+int		is_valid_input(char **pieces, int *pc);
+int		is_valid_piece(char **pieces, int *pc);
+void	top_left_justify(char **pieces);
+
 /*
-*** parse.c
+*** parse_helpers.c GOOD
+*/
+int		check_operation(int **values, int direction);
+void	check_adjacent(char **pieces, int *i, int *j, int *borders);
+void	top_left_helper_helper(int **values, int op, int i);
+void	top_left_helper(int *values, char *pieces, int k);
+
+/*
+*** solve.c GOOD
 */
 
-int		parse_and_retrieve(char **pieces, int fd); //21 lines
-int		piece_reader(char **pieces, int fd, int *pc); //27 lines
-int		is_valid_input(char **pieces, int *pc); //27 lines
-int		is_valid_piece(char **pieces, int *pc); //24 lines
-void	top_left_justify(char **pieces); //19 lines
+int		*encode_index(char *piece);
+void	place_piece(char **map, char *piece, int x, int y);
+int		place_validate(char **map, char **pieces, int piecenum, int arr[]);
+int		solver_recursive(char **map, char **piece, int piecenum, int numpieces);
+void	solver(char **pieces);
 
 /*
-*** parse_helpers.c
-*/
-int		check_operation(int **values, int direction); //22 lines
-void	check_adjacent(char **pieces, int *i, int *j, int *borders); //11 lines
-void	top_left_helper_helper(int **values, int op, int i); //24 lines
-void	top_left_helper(int *values, char *pieces, int k); //13 lines
-
-/*
-*** solve.c
-*/
-
-int		*encode_index(char *piece); //16 lines
-void	place_piece(char **map, char *piece, int x, int y); //25 lines
-int		place_validate(char **map, char **pieces, int piecenum, int x, int y); //23 lines but too many parameters
-int		solver_recursive(char **map, char **piece, int piecenum, int numpieces); //25 lines, 24 without print function
-void	solver(char **pieces); //14 lines, 13 without print function
-
-/*
-*** map.c
+*** map.c GOOD
 */
 
 int		get_map_size(char **map);
@@ -61,8 +55,13 @@ void	free_map(char **map);
 int		set_map_size(int numblocks);
 char	**resize_map(char **map);
 
-void	print_map(char **map);
-void	remove_pieces(char **map, char c); //18 lines
-void	print_pieces(char *pieces[]);
+/*
+*** helpers.c GOOD
+*/
 
+void	array_zero(int arr[]);
+int		place_validate_helper(char **map, int piecenum, int *hold, int arr[]);
+void	print_map(char **map);
+void	remove_pieces(char **map, char c);
+void	piece_reader_helper(char **pieces, int *pc, char **line);
 #endif
